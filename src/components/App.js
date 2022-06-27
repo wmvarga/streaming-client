@@ -1,17 +1,18 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 
 import MainRoutes from '../routes';
 import Header from './Header';
+import history from '../history';
 
 const App = () => {
     return (
-        <BrowserRouter>
+        <HistoryRouter history={history}>
             <div className='ui container'>
                 <Header />
                 <MainRoutes />
             </div>
-        </BrowserRouter>
+        </HistoryRouter>
     );
 }
 
