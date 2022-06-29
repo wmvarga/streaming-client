@@ -33,10 +33,6 @@ class StreamList extends React.Component {
 
     renderAdmin(stream) {
         if (this.props.currentUserId === stream.userId) {
-            // !!!! PROBLEMA: MODAL QUE ABRE E FECHA É SEMPRE O PRIMEIRO RENDERIZADO
-            // solução:
-            // 1. para cada modal renderizado ter a streamSelecionada
-            // 2. um modal único s streamSelecionada no state
             return (
                 <div className='right floated content'>
                     <Link to={`/streams/edit/${stream.id}`} className='ui button primary'>Edit</Link>
@@ -53,7 +49,7 @@ class StreamList extends React.Component {
                     {this.renderAdmin(stream)}
                     <i className="large middle aligned icon camera" />
                     <div className="content">
-                        {stream.title}
+                        <Link to={`/streams/show/${stream.id}`}>{stream.title}</Link>
                         <div className="description">{stream.description}</div>
                     </div>
                 </div>

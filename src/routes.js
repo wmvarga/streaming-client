@@ -7,7 +7,6 @@ import StreamList from './components/streams/StreamList';
 import StreamCreate from './components/streams/StreamCreate';
 import StreamShow from './components/streams/StreamShow';
 import StreamEdit from './components/streams/StreamEdit';
-import StreamDelete from './components/streams/StreamDelete';
 
 export default function MainRoutes() {
     return (
@@ -15,9 +14,8 @@ export default function MainRoutes() {
             <Route path="/" element={<StreamList />}></Route>
             <Route path="/streams/list" element={<StreamList />}></Route>
             <Route path="/streams/create" element={<StreamCreate />}></Route>
-            <Route path="/streams/show" element={<StreamShow />}></Route>
+            <Route path="/streams/show/:id" element={<StreamShow />}></Route>
             <Route path="/streams/edit/:id" element={<StreamEdit />}></Route>
-            <Route path="/streams/delete" element={<StreamDelete />}></Route>
         </Routes>
     );
 }
