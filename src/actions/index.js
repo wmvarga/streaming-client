@@ -5,7 +5,10 @@ import {
     FETCH_STREAM,
     FETCH_STREAMS,
     EDIT_STREAM,
-    DELETE_STREAM
+    DELETE_STREAM,
+    OPEN_MODAL,
+    CLOSE_MODAL,
+    SELECT_ITEM
 } from "./types";
 import streams from '../apis/streams';
 import history from "../history";
@@ -72,4 +75,25 @@ export const deleteStream = (id) => async dispatch => {
         type: DELETE_STREAM,
         payload: id
     });
+
+    dispatch(closeModal());
+}
+
+export const openModal = () => {
+    return {
+        type: OPEN_MODAL
+    }
+}
+
+export const closeModal = () => {
+    return {
+        type: CLOSE_MODAL
+    }
+}
+
+export const selectModalItem = (item) => {
+    return {
+        type: SELECT_ITEM,
+        payload: item
+    }
 }

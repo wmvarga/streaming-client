@@ -2,19 +2,45 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { fetchStreams } from '../../actions'
+import { 
+    fetchStreams,
+    deleteStream,
+    openModal,
+    closeModal,
+    selectModalItem
+} from '../../actions'
+import Modal from '../Modal';
 
 class StreamList extends React.Component {
     componentDidMount() {
         this.props.fetchStreams();
     }
 
+    onDeleteClick = () => {
+        this.props.deleteStream(this.props.selectedModalItem.id);
+    }
+
+    actions = (
+        <React.Fragment>
+            <button className='ui button negative' onClick={this.onDeleteClick}>Delete</button>
+        </React.Fragment>
+    );
+
+    onModalOpen = (item) => {
+        this.props.selectModalItem(item);
+        this.props.openModal();
+    }
+
     renderAdmin(stream) {
         if (this.props.currentUserId === stream.userId) {
+            // !!!! PROBLEMA: MODAL QUE ABRE E FECHA É SEMPRE O PRIMEIRO RENDERIZADO
+            // solução:
+            // 1. para cada modal renderizado ter a streamSelecionada
+            // 2. um modal único s streamSelecionada no state
             return (
                 <div className='right floated content'>
                     <Link to={`/streams/edit/${stream.id}`} className='ui button primary'>Edit</Link>
-                    <button className='ui button negative'>Delete</button>
+                    <button className='ui button negative' onClick={() => this.onModalOpen(stream)}>Delete</button>
                 </div>
             );
         }
@@ -53,6 +79,7 @@ class StreamList extends React.Component {
                     {this.renderList()}
                 </div>
                 {this.renderCreate()}
+                {this.props.selectedModalItem ? <Modal header="Delete Stream" content={`Are you sure you want to delete stream "${this.props.selectedModalItem.title}"?`} actions={this.actions} withCancel /> : null}
             </div>
         );
     }
@@ -62,8 +89,9 @@ const mapStateToProps = (state) => {
     return {
         streams: Object.values(state.streams),
         currentUserId: state.auth.userId,
-        isSignedIn: state.auth.isSignedIn
+        isSignedIn: state.auth.isSignedIn,
+        selectedModalItem: state.modal.selectedItem
     };
 }
 
-export default connect(mapStateToProps, { fetchStreams })(StreamList);
+export default connect(mapStateToProps, { fetchStreams, deleteStream, openModal, closeModal, selectModalItem })(StreamList);
